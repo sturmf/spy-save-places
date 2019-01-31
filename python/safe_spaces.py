@@ -7,6 +7,7 @@ from itertools import repeat, product
 
 # Refactorings
 # Don't use -1 as Marker, MAX_DISTANCE, or NO_AGENT_IN_SIGHT would be nicer
+# Pull all occurences of map size information out of methods to a single place
 
 
 
@@ -139,4 +140,4 @@ class SafetyFinder:
         return [str(self.int_to_char[x]) + str(y + 1) for x, y in safe_spaces]
 
     def _remove_agents_outside_map(self, agents_coordinates):
-        return [agent for agent in agents_coordinates if agent[0] <= 10 and agent[1] <= 10]
+        return [agent for agent in agents_coordinates if agent[0] < 10 and agent[1] < 10]

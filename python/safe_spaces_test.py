@@ -151,7 +151,7 @@ class SafetyFinderTest_advice_for_alex__Decompositions(unittest.TestCase):
     def test__remove_agents_outside_map(self):
         agents = [[10, 10], [12, 1], [5, 13], [2, 3]]
         self.assertEqual(sorted(SafetyFinder()._remove_agents_outside_map(agents)),
-                         sorted([[10, 10], [2, 3]]))
+                         sorted([[2, 3]]))
 
 
 
