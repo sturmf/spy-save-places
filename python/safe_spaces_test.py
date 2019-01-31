@@ -3,8 +3,8 @@ import unittest
 
 from safe_spaces import SafetyFinder
 
-@unittest.skip("Comment or delete this line to solve the challenge with python")
-class SafetyFinderTest(unittest.TestCase):
+#@unittest.skip("Comment or delete this line to solve the challenge with python")
+class SafetyFinderTest_Level_1(unittest.TestCase):
     """A class that contains the unit tests that adhere to the game spec"""
 
     # Level 1 -- Test for conversion from alphanumeric coordinates to vectors
@@ -35,6 +35,8 @@ class SafetyFinderTest(unittest.TestCase):
         self.assertEqual(SafetyFinder().convert_coordinates(['J10']),
                          [[9, 9]])
 
+#@unittest.skip("Comment or delete this line to solve the challenge with python")
+class SafetyFinderTest_Level_2(unittest.TestCase):
     # Level 2 -- Find safe spaces in the city based on agent locations
     def test_safe_spaces_round1(self):
         """Test for six agents at specified locations"""
@@ -53,6 +55,9 @@ class SafetyFinderTest(unittest.TestCase):
         agents = [[0, 0]]
         self.assertEqual(sorted(SafetyFinder().find_safe_spaces(agents)),
                          sorted([[9, 9]]))
+
+#@unittest.skip("Comment or delete this line to solve the challenge with python")
+class SafetyFinderTest_Level_3(unittest.TestCase):
 
     # Level 3 -- Handling edge cases and offering recommendations
     def test_no_agents(self):
@@ -105,6 +110,49 @@ class SafetyFinderTest(unittest.TestCase):
         agents = ['A12']
         self.assertEqual(SafetyFinder().advice_for_alex(agents),
                          'The whole city is safe for Alex! :-)')
+
+
+class SafetyFinderTest_find_safe_spaces__Decompositions(unittest.TestCase):
+
+    def test_generate_initial_map(self):
+        self.assertEqual(SafetyFinder()._generate_initial_spaces(2, 2),
+                         {(0, 0, -1), (1, 1, -1), (0, 1, -1), (1, 0, -1)})
+
+        self.assertEqual(SafetyFinder()._generate_initial_spaces(1, 1),
+                         {(0, 0, -1)})
+
+    def test_place_agent(self):
+        self.assertEqual({(0, 0, 0)},
+                         SafetyFinder()._place_agent({(0, 0, -1)}, [0,0]))
+
+        self.assertEqual({(0, 0, 0), (1, 1, 2), (0, 1, 1), (1, 0, 1)},
+                         SafetyFinder()._place_agent({(0, 0, -1), (1, 1, -1), (0, 1, -1), (1, 0, -1)}, [0,0]))
+
+        self.assertEqual({(0, 0, 1), (1, 1, 1), (0, 1, 0), (1, 0, 2)},
+                         SafetyFinder()._place_agent({(0, 0, -1), (1, 1, -1), (0, 1, -1), (1, 0, -1)}, [0,1]))
+
+    def test_reduce_to_safe_spaces(self):
+        self.assertEqual({(1, 0, 2)},
+                         SafetyFinder()._filter_to_safe_spaces({(0, 0, 1), (1, 1, 1), (0, 1, 0), (1, 0, 2)}))
+
+        self.assertEqual({(1, 0, 1), (0, 1, 1)},
+                         SafetyFinder()._filter_to_safe_spaces({(0, 0, 0), (1, 1, 0), (0, 1, 1), (1, 0, 1)}))
+
+    def test_convert_to_list_of_lists(self):
+        self.assertEqual(sorted([[1, 0], [0, 1]]),
+                         sorted(SafetyFinder()._convert_to_list_of_spaces({(1, 0, 1), (0, 1, 1)})))
+
+class SafetyFinderTest_advice_for_alex__Decompositions(unittest.TestCase):
+
+    def test_convert_to_list_of_strings(self):
+        self.assertEqual(sorted(SafetyFinder()._convert_to_list_of_strings([[0, 9], [0, 7], [5, 0]])),
+                         sorted(['A10', 'A8', 'F1']))
+
+    def test__remove_agents_outside_map(self):
+        agents = [[10, 10], [12, 1], [5, 13], [2, 3]]
+        self.assertEqual(sorted(SafetyFinder()._remove_agents_outside_map(agents)),
+                         sorted([[10, 10], [2, 3]]))
+
 
 
 if __name__ == '__main__':
