@@ -8,6 +8,8 @@ from itertools import repeat, product
 # Refactorings
 # Don't use -1 as Marker, MAX_DISTANCE, or NO_AGENT_IN_SIGHT would be nicer
 # Pull all occurences of map size information out of methods to a single place
+# Add test for spies on the map edge to catch +-1 errors
+# Correct expected actual ordering in assert calls
 
 
 
