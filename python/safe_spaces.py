@@ -72,8 +72,7 @@ class SafetyFinder:
         return self._convert_to_list_of_spaces(safe_spaces)
 
     def _generate_initial_spaces(self, x_length, y_length):
-        coordinates = set(product(range(x_length), range(y_length)))
-        return coordinates
+        return set(product(range(x_length), range(y_length)))
 
     def _calculate_minimal_distances(self, spaces, agents):
         updated_spaces = set()
