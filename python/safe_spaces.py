@@ -36,21 +36,7 @@ class SafetyFinder:
     """
 
     def __init__(self):
-        self.char_to_int = {
-            'A': 0,
-            'B': 1,
-            'C': 2,
-            'D': 3,
-            'E': 4,
-            'F': 5,
-            'G': 6,
-            'H': 7,
-            'I': 8,
-            'J': 9,
-            'K': 10,
-        }
-
-        self.int_to_char = {v: k for k, v in self.char_to_int.items()}
+        pass
 
     def convert_coordinates(self, agents):
         """This method should take a list of alphanumeric coordinates (e.g. 'A6')
@@ -62,11 +48,10 @@ class SafetyFinder:
 
         Returns a list of coordinates in zero-indexed vector form.
         """
-        return [self._agent_to_coordinates(agent) for agent in agents]
-        return list(map(self._agent_to_coordinates, agents)) # TODO
+        return list(map(self._agent_to_coordinates, agents))
 
     def _agent_to_coordinates(self, agent):
-        return [self.char_to_int[agent[0]], int(agent[1:]) - 1]
+        return [ord(agent[0])-ord("A"), int(agent[1:])-1]
 
     def find_safe_spaces(self, agents):
         """This method will take an array with agent locations and find
@@ -149,7 +134,7 @@ class SafetyFinder:
         return self._convert_to_list_of_strings(safe_spaces)
 
     def _convert_to_list_of_strings(self, safe_spaces):
-        return [str(self.int_to_char[x]) + str(y + 1) for x, y in safe_spaces]
+        return [chr(x + ord("A")) + str(y + 1) for x, y in safe_spaces]
 
     def _remove_agents_outside_map(self, agents_coordinates):
         return [agent for agent in agents_coordinates if agent[0] < 10 and agent[1] < 10]
