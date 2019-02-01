@@ -86,15 +86,9 @@ class SafetyFinder:
         (x, y, max_distance) = max(spaces, key=lambda s: s[2])
 
         if max_distance == 0:
-            return []
+            return set()
 
-        safe_spaces = {space for space in spaces
-                       if
-                       space[2] == max_distance
-                       }
-        return safe_spaces
-
-        return set(filter(lambda s: s[2] == max_distance, spaces)) # TODO
+        return set(filter(lambda s: s[2] == max_distance, spaces))
 
     def _convert_to_list_of_spaces(self, spaces):
         return [[x, y] for (x , y, d) in spaces]
