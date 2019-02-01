@@ -35,8 +35,9 @@ class SafetyFinder:
     safest places in the city for Alex to hide out
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, city_rows=10, city_columns=10):
+        self.city_rows = city_rows
+        self.city_columns = city_columns
 
     def convert_coordinates(self, agents):
         """This method should take a list of alphanumeric coordinates (e.g. 'A6')
@@ -64,7 +65,7 @@ class SafetyFinder:
 
         Returns a list of safe spaces in indexed vector form.
         """
-        initial_spaces = self._generate_initial_spaces(10, 10)
+        initial_spaces = self._generate_initial_spaces(self.city_columns, self.city_rows)
         spaces_with_agents = self._place_agents(agents, initial_spaces)
         safe_spaces = self._filter_to_safe_spaces(spaces_with_agents)
 
