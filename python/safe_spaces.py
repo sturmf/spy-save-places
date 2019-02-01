@@ -66,8 +66,8 @@ class SafetyFinder:
         Returns a list of safe spaces in indexed vector form.
         """
         initial_spaces = self._generate_initial_spaces(self.city_columns, self.city_rows)
-        spaces_with_agents = self._calculate_minimal_distances(initial_spaces, agents)
-        safe_spaces = self._filter_to_safe_spaces(spaces_with_agents)
+        spaces_with_minimal_distances = self._calculate_minimal_distances(initial_spaces, agents)
+        safe_spaces = self._filter_to_safe_spaces(spaces_with_minimal_distances)
 
         return self._convert_to_list_of_spaces(safe_spaces)
 
