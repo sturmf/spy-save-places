@@ -74,12 +74,12 @@ class SafetyFinder:
     def _generate_city_locations(self, x_length, y_length):
         return set(product(range(x_length), range(y_length)))
 
-    def _calculate_minimal_distances(self, spaces, agents):
-        updated_spaces = set()
-        for space in spaces:
-            distances = [abs(agent[0] - space[0]) + abs(agent[1] - space[1]) for agent in agents]
-            updated_spaces.add((space[0], space[1], min(distances)))
-        return updated_spaces
+    def _calculate_minimal_distances(self, locations, agents):
+        distance = lambda a, b: abs(b[0] - a[0]) + abs(b[1] - a[1])
+        distances_to_agents = lambda location: [distance(location, agent) for agent in agents]
+        define_space = lambda location: (location[0], location[1], min(distances_to_agents(location)))
+
+        return set(map(define_space, locations))
 
     def _filter_to_safe_spaces(self, spaces):
         (x, y, max_distance) = max(spaces, key=lambda s: s[2])
