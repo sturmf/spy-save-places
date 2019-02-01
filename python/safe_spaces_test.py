@@ -116,10 +116,10 @@ class SafetyFinderTest_find_safe_spaces__Decompositions(unittest.TestCase):
 
     def test_generate_initial_map(self):
         self.assertEqual(SafetyFinder()._generate_initial_spaces(2, 2),
-                         {(0, 0, -1), (1, 1, -1), (0, 1, -1), (1, 0, -1)})
+                         {(0, 0), (1, 1), (0, 1), (1, 0)})
 
         self.assertEqual(SafetyFinder()._generate_initial_spaces(1, 1),
-                         {(0, 0, -1)})
+                         {(0, 0)})
 
     def test_place_agent(self):
         self.assertEqual({(0, 0, 0)},
