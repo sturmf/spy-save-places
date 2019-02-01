@@ -66,30 +66,23 @@ class SafetyFinder:
         Returns a list of safe spaces in indexed vector form.
         """
         initial_spaces = self._generate_initial_spaces(self.city_columns, self.city_rows)
-        spaces_with_agents = self._place_agents(agents, initial_spaces)
+        spaces_with_agents = self._calculate_minimal_distances(initial_spaces, agents)
         safe_spaces = self._filter_to_safe_spaces(spaces_with_agents)
 
         return self._convert_to_list_of_spaces(safe_spaces)
-
-    def _place_agents(self, agents, spaces):
-        for agent in agents:
-            spaces = self._place_agent(spaces, agent)
-        return spaces
 
     def _generate_initial_spaces(self, x_length, y_length):
         coordinates = set(product(range(x_length), range(y_length)))
         return {(x,y, -1) for (x,y) in coordinates}
 
-    def _place_agent(self, spaces, agent):
+    def _calculate_minimal_distances(self, spaces, agents):
         updated_spaces = set()
-        (x_agent, y_agent) = agent
-
         for space in spaces:
-            (x_space, y_space, current_distance) = space
-            distance_to_agent = abs(x_agent - x_space) + abs(y_agent - y_space)
-            updated_distance = distance_to_agent if current_distance == -1 else min(current_distance, distance_to_agent)
-            updated_spaces.add((x_space, y_space, updated_distance))
-
+            (_, _, current_distance) = space
+            distances = [abs(agent[0] - space[0]) + abs(agent[1] - space[1]) for agent in agents]
+            if current_distance != -1:
+                distances.add(current_distance)
+            updated_spaces.add((space[0], space[1], min(distances)))
         return updated_spaces
 
     def _filter_to_safe_spaces(self, spaces):
@@ -139,3 +132,4 @@ class SafetyFinder:
 
     def _remove_agents_outside_map(self, agents_coordinates):
         return [agent for agent in agents_coordinates if agent[0] < 10 and agent[1] < 10]
+
