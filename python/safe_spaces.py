@@ -105,7 +105,7 @@ class SafetyFinder:
         or a specialized message informing her of edge cases
         """
         all_agents_coordinates = self.convert_coordinates(agents)
-        city_agents_coordinates = self._remove_agents_outside_map(all_agents_coordinates)
+        city_agents_coordinates = self._remove_agents_outside_city(all_agents_coordinates)
 
         if len(city_agents_coordinates) == 0:
             return 'The whole city is safe for Alex! :-)'
@@ -117,7 +117,7 @@ class SafetyFinder:
 
         return self._convert_to_list_of_strings(safe_spaces)
 
-    def _remove_agents_outside_map(self, agents_coordinates):
+    def _remove_agents_outside_city(self, agents_coordinates):
         return list(filter(lambda a:
                            a[0] < self.city_columns and a[1] < self.city_rows,
                            agents_coordinates))
