@@ -90,7 +90,7 @@ class SafetyFinder:
         return set(filter(lambda s: s[2] == max_distance, spaces))
 
     def _convert_to_list_of_spaces(self, spaces):
-        return [[x, y] for (x , y, d) in spaces]
+        return [[x, y] for (x, y, d) in spaces]
 
     def advice_for_alex(self, agents):
         """This method will take an array with agent locations and offer advice
@@ -117,9 +117,8 @@ class SafetyFinder:
 
         return self._convert_to_list_of_strings(safe_spaces)
 
-    def _convert_to_list_of_strings(self, safe_spaces):
-        return [chr(x + ord("A")) + str(y + 1) for x, y in safe_spaces]
-
     def _remove_agents_outside_map(self, agents_coordinates):
         return [agent for agent in agents_coordinates if agent[0] < 10 and agent[1] < 10]
 
+    def _convert_to_list_of_strings(self, safe_spaces):
+        return [chr(x + ord("A")) + str(y + 1) for x, y in safe_spaces]
