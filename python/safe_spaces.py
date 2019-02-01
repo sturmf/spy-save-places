@@ -118,7 +118,9 @@ class SafetyFinder:
         return self._convert_to_list_of_strings(safe_spaces)
 
     def _remove_agents_outside_map(self, agents_coordinates):
-        return [agent for agent in agents_coordinates if agent[0] < 10 and agent[1] < 10]
+        return list(filter(lambda a:
+                           a[0] < self.city_columns and a[1] < self.city_rows,
+                           agents_coordinates))
 
     def _convert_to_list_of_strings(self, safe_spaces):
         return [chr(x + ord("A")) + str(y + 1) for x, y in safe_spaces]
