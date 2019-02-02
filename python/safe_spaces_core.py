@@ -30,7 +30,7 @@ from itertools import repeat, product
 # find_safest_distance
 # convert_safest_fields_to_coordinates
 
-class SafetyFinder:
+class SafetyFinderCore:
     """A class that contains everything we need to find the
     safest places in the city for Alex to hide out
     """

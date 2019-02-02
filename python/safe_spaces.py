@@ -1,6 +1,8 @@
 """Solve the spy game!"""
 from itertools import repeat, product
 
+from safe_spaces_core import SafetyFinderCore
+
 # Questions
 # IODA: When to make a step function private? What about the tests at that point?
 # IODA: Should it not be allowed to extract functions from pure functions?
@@ -36,6 +38,8 @@ class SafetyFinder:
     """
 
     def __init__(self, city_rows=10, city_columns=10):
+        self.sfc = SafetyFinderCore(city_rows, city_columns)
+
         self.city_rows = city_rows
         self.city_columns = city_columns
         self.city_locations = self._generate_city_locations(self.city_columns, self.city_rows)
@@ -53,6 +57,8 @@ class SafetyFinder:
 
         Returns a list of coordinates in zero-indexed vector form.
         """
+        return self.sfc.convert_coordinates(agents)
+
         return list(map(self._agent_to_coordinates, agents))
 
     def _agent_to_coordinates(self, agent):
@@ -69,6 +75,8 @@ class SafetyFinder:
 
         Returns a list of safe spaces in indexed vector form.
         """
+        return self.sfc.find_safe_spaces(agents)
+
         spaces = self._append_minimal_distances_to_locations(self.city_locations, agents)
         safe_spaces = self._filter_to_safe_spaces(spaces)
 
@@ -107,6 +115,7 @@ class SafetyFinder:
         Returns either a list of alphanumeric map coordinates for Alex to hide in,
         or a specialized message informing her of edge cases
         """
+        return self.sfc.advice_for_alex(agents)
 
         # Create internal agent representation from request
         all_agents = self.convert_coordinates(agents)
