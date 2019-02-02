@@ -112,50 +112,5 @@ class SafetyFinderTest_Level_3(unittest.TestCase):
                          'The whole city is safe for Alex! :-)')
 
 
-class SafetyFinderTest_find_safe_spaces__Decompositions(unittest.TestCase):
-
-    def test_generate_initial_map(self):
-        self.assertEqual(SafetyFinder()._generate_city_locations(2, 2),
-                         {(0, 0), (1, 1), (0, 1), (1, 0)})
-
-        self.assertEqual(SafetyFinder()._generate_city_locations(1, 1),
-                         {(0, 0)})
-
-    def test_place_agent(self):
-        self.assertEqual({(0, 0, 0)},
-                         SafetyFinder()._append_minimal_distances_to_locations({(0, 0)}, [[0, 0]]))
-
-        self.assertEqual({(0, 0, 0), (1, 1, 2), (0, 1, 1), (1, 0, 1)},
-                         SafetyFinder()._append_minimal_distances_to_locations(
-                                                                     {(0, 0), (1, 1), (0, 1), (1, 0)}, [[0, 0]]))
-
-        self.assertEqual({(0, 0, 1), (1, 1, 1), (0, 1, 0), (1, 0, 2)},
-                         SafetyFinder()._append_minimal_distances_to_locations(
-                                                                     {(0, 0), (1, 1), (0, 1), (1, 0)}, [[0, 1]]))
-
-    def test_reduce_to_safe_spaces(self):
-        self.assertEqual({(1, 0, 2)},
-                         SafetyFinder()._filter_to_safe_spaces({(0, 0, 1), (1, 1, 1), (0, 1, 0), (1, 0, 2)}))
-
-        self.assertEqual({(1, 0, 1), (0, 1, 1)},
-                         SafetyFinder()._filter_to_safe_spaces({(0, 0, 0), (1, 1, 0), (0, 1, 1), (1, 0, 1)}))
-
-    def test_convert_to_list_of_lists(self):
-        self.assertEqual(sorted([[1, 0], [0, 1]]),
-                         sorted(SafetyFinder()._convert_to_list_of_spaces({(1, 0, 1), (0, 1, 1)})))
-
-class SafetyFinderTest_advice_for_alex__Decompositions(unittest.TestCase):
-
-    def test_convert_to_list_of_strings(self):
-        self.assertEqual(sorted(SafetyFinder()._convert_to_list_of_strings([[0, 9], [0, 7], [5, 0]])),
-                         sorted(['A10', 'A8', 'F1']))
-
-    def test__remove_agents_outside_map(self):
-        agents = [[10, 10], [12, 1], [5, 13], [2, 3]]
-        self.assertEqual(sorted(SafetyFinder()._remove_agents_outside_city(agents)),
-                         sorted([[2, 3]]))
-
-
-
 if __name__ == '__main__':
     unittest.main()
