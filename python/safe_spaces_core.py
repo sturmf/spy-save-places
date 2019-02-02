@@ -121,7 +121,10 @@ class SafetyFinderCore:
         return self._convert_to_list_of_strings(safe_spaces)
 
     def _remove_agents_outside_city(self, agents):
-        return list(filter(lambda agent: agent in self.city_locations, agents))
+        return list(filter(self._is_in_city, agents))
+
+    def _is_in_city(self, location):
+        return location in self.city_locations
 
     def _convert_to_list_of_strings(self, safe_spaces):
         return [chr(x + ord("A")) + str(y + 1) for x, y in safe_spaces]
