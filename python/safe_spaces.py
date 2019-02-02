@@ -122,10 +122,12 @@ class SafetyFinder:
         # Create response from internal save spaces representation
         return self._convert_to_list_of_strings(safe_spaces)
 
-    def _remove_agents_outside_city(self, agents_coordinates):
+    def _remove_agents_outside_city(self, agents):
         return list(filter(lambda a:
                            a[0] < self.city_columns and a[1] < self.city_rows,
-                           agents_coordinates))
+                           agents))
+        # nicer, but requires hashable locations and agents
+        # return list(filter(lambda agent: agent in self.city_locations, agents))
 
     def _convert_to_list_of_strings(self, safe_spaces):
         return [chr(x + ord("A")) + str(y + 1) for x, y in safe_spaces]
