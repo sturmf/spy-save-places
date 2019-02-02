@@ -107,17 +107,19 @@ class SafetyFinder:
         Returns either a list of alphanumeric map coordinates for Alex to hide in,
         or a specialized message informing her of edge cases
         """
-        all_agents = self.convert_coordinates(agents)
-        city_agents = self._remove_agents_outside_city(all_agents)
 
+        # Create internal agent representation from request
+        all_agents = self.convert_coordinates(agents)
+
+        city_agents = self._remove_agents_outside_city(all_agents)
         if len(city_agents) == 0:
             return 'The whole city is safe for Alex! :-)'
 
         safe_spaces = self.find_safe_spaces(city_agents)
-
         if len(safe_spaces) == 0:
             return 'There are no safe locations for Alex! :-('
 
+        # Create response from internal save spaces representation
         return self._convert_to_list_of_strings(safe_spaces)
 
     def _remove_agents_outside_city(self, agents_coordinates):
