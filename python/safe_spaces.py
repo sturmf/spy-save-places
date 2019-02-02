@@ -76,10 +76,8 @@ class SafetyFinder:
 
     def _calculate_minimal_distances(self, locations, agents):
         distance = lambda a, b: abs(b[0] - a[0]) + abs(b[1] - a[1])
-        distances_to_agents = lambda location: [distance(location, agent) for agent in agents]
-        define_space = lambda location: (location[0], location[1], min(distances_to_agents(location)))
-
-        return set(map(define_space, locations))
+        distance_to_nearest_agent = lambda location: min([distance(location, agent) for agent in agents])
+        return {(*location, distance_to_nearest_agent(location)) for location in locations}
 
     def _filter_to_safe_spaces(self, spaces):
         (x, y, max_distance) = max(spaces, key=lambda s: s[2])
