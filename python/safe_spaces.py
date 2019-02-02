@@ -2,12 +2,13 @@
 from safe_spaces_core import SafetyFinderCore
 
 class SafetyFinder:
-    """A class that contains everything we need to find the
-    safest places in the city for Alex to hide out
+    """A class that contains everything we need to adapt to the
+    interfaces and models of given acceptance tests. It transforms
+    requests and responses from and to SafetyFinderCore.
     """
 
-    def __init__(self, city_rows=10, city_columns=10):
-        self.sfc = SafetyFinderCore(city_rows, city_columns)
+    def __init__(self):
+        self.sfc = SafetyFinderCore()
 
     def convert_coordinates(self, agents):
         """This method should take a list of alphanumeric coordinates (e.g. 'A6')
