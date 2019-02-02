@@ -128,3 +128,26 @@ class SafetyFinderCore:
 
     def _convert_to_list_of_strings(self, safe_spaces):
         return [chr(x + ord("A")) + str(y + 1) for x, y in safe_spaces]
+
+
+# Data type sketches
+
+from typing import NamedTuple
+
+class Location(NamedTuple):
+    x: int
+    y: int
+
+
+class Agent(Location):
+    pass
+
+
+class Space(NamedTuple):
+    location: Location
+    distance: int
+
+
+class AdviceResponse(NamedTuple):
+    advice_sentence: str
+    save_spaces_list: list
