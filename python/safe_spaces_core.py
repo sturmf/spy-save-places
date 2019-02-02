@@ -70,7 +70,7 @@ class SafetyFinderCore:
         spaces = self._append_minimal_distances_to_locations(self.city_locations, agents)
         safe_spaces = self._filter_to_safe_spaces(spaces)
 
-        return self._convert_to_list_of_spaces(safe_spaces)
+        return self._convert_to_locations(safe_spaces)
 
     def _append_minimal_distances_to_locations(self, locations, agents):
         return {(*location, self._distance_to_nearest_agent(location, agents))
@@ -90,7 +90,7 @@ class SafetyFinderCore:
 
         return set(filter(lambda s: s[2] == max_distance, spaces))
 
-    def _convert_to_list_of_spaces(self, spaces):
+    def _convert_to_locations(self, spaces):
         return [[x, y] for (x, y, d) in spaces]
 
     def advice_for_alex(self, agents):

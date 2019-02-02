@@ -33,7 +33,7 @@ class SafetyFinderCoreTest_find_safe_spaces__Decompositions(unittest.TestCase):
 
     def test_convert_to_list_of_lists(self):
         self.assertEqual(sorted([[1, 0], [0, 1]]),
-                         sorted(SafetyFinderCore()._convert_to_list_of_spaces({(1, 0, 1), (0, 1, 1)})))
+                         sorted(SafetyFinderCore()._convert_to_locations({(1, 0, 1), (0, 1, 1)})))
 
 class SafetyFinderCoreTest_advice_for_alex__Decompositions(unittest.TestCase):
 
