@@ -66,7 +66,8 @@ class SafetyFinder:
         Returns a list of safe spaces in indexed vector form.
         """
         city_locations = self._generate_city_locations(self.city_columns, self.city_rows)
-        spaces_with_minimal_distances = self._calculate_minimal_distances(city_locations, agents)
+        calc_min_distance = self._create_min_distance_calculator(agents)
+        spaces_with_minimal_distances = self._extend_locations_with_distances(city_locations, calc_min_distance)
         safe_spaces = self._filter_to_safe_spaces(spaces_with_minimal_distances)
 
         return self._convert_to_list_of_spaces(safe_spaces)
@@ -74,10 +75,19 @@ class SafetyFinder:
     def _generate_city_locations(self, x_length, y_length):
         return set(product(range(x_length), range(y_length)))
 
-    def _calculate_minimal_distances(self, locations, agents):
+    def _create_min_distance_calculator(self, agents):
         distance = lambda a, b: abs(b[0] - a[0]) + abs(b[1] - a[1])
-        distance_to_nearest_agent = lambda location: min([distance(location, agent) for agent in agents])
+        return lambda location: min([distance(location, agent) for agent in agents])
+
+    def _extend_locations_with_distances(self, locations, distance_to_nearest_agent):
         return {(*location, distance_to_nearest_agent(location)) for location in locations}
+
+    def _calculate_minimal_distances(self, locations, agents):
+        ### This method is obsolete after being separated in two
+        ### I called the two methods to make the tests pass that run through this method
+        calc_min_distance = self._create_min_distance_calculator(agents)
+        spaces_with_minimal_distances = self._extend_locations_with_distances(locations, calc_min_distance)
+        return spaces_with_minimal_distances
 
     def _filter_to_safe_spaces(self, spaces):
         (x, y, max_distance) = max(spaces, key=lambda s: s[2])
