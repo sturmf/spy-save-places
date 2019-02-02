@@ -66,7 +66,7 @@ class SafetyFinder:
         Returns a list of safe spaces in indexed vector form.
         """
         city_locations = self._generate_city_locations(self.city_columns, self.city_rows)
-        spaces = self._add_minimal_distances(city_locations, agents)
+        spaces = self._append_minimal_distances_to_locations(city_locations, agents)
         safe_spaces = self._filter_to_safe_spaces(spaces)
 
         return self._convert_to_list_of_spaces(safe_spaces)
@@ -74,9 +74,12 @@ class SafetyFinder:
     def _generate_city_locations(self, x_length, y_length):
         return set(product(range(x_length), range(y_length)))
 
-    def _add_minimal_distances(self, locations, agents):
-        distance_to_nearest_agent = lambda location: min([self._distance(location, agent) for agent in agents])
-        return {(*location, distance_to_nearest_agent(location)) for location in locations}
+    def _append_minimal_distances_to_locations(self, locations, agents):
+        return {(*location, self._distance_to_nearest_agent(location, agents))
+                for location in locations}
+
+    def _distance_to_nearest_agent(self, location, agents):
+        return min([self._distance(location, agent) for agent in agents])
 
     def _distance(self, a, b):
         return abs(b[0] - a[0]) + abs(b[1] - a[1])
