@@ -1,6 +1,14 @@
 """Solve the spy game!"""
 from itertools import repeat, product
 
+# Design Notes
+# - IODA as foundational principle
+# - set() for internal collections because
+#   - order does not matter (locations, spaces, agents)
+#   - no duplicates needed
+#   - easier to test equality
+#
+
 # Questions
 # IODA: When to make a step function private? What about the tests at that point?
 # IODA: Should it not be allowed to extract functions from pure functions?
@@ -51,7 +59,7 @@ class SafetyFinderCore:
 
         Returns a list of coordinates in zero-indexed vector form.
         """
-        return map(self._construct_agent, alphanumeric_agents)
+        return map(self._construct_agent, set(alphanumeric_agents))
 
     def _construct_agent(self, agent):
         return (ord(agent[0])-ord("A"), int(agent[1:])-1)
@@ -91,7 +99,7 @@ class SafetyFinderCore:
         return set(filter(lambda s: s[2] == max_distance, spaces))
 
     def _convert_to_locations(self, spaces):
-        return [[x, y] for (x, y, d) in spaces]
+        return {(x, y) for (x, y, d) in spaces}
 
     def advice_for_alex(self, agents):
         """This method will take an array with agent locations and offer advice
@@ -121,7 +129,7 @@ class SafetyFinderCore:
         return self._convert_to_list_of_strings(safe_spaces)
 
     def _remove_agents_outside_city(self, agents):
-        return list(filter(self._is_in_city, agents))
+        return set(filter(self._is_in_city, agents))
 
     def _is_in_city(self, location):
         return location in self.city_locations

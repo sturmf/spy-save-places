@@ -24,7 +24,7 @@ class SafetyFinder:
         return self._convert_sfc_agents(sfc_agents)
 
     def _convert_sfc_agents(self, sfc_agents):
-        return [list(agent) for agent in sfc_agents]
+        return sorted([list(agent) for agent in sfc_agents])
 
     def find_safe_spaces(self, agents):
         """This method will take an array with agent locations and find
@@ -37,7 +37,8 @@ class SafetyFinder:
 
         Returns a list of safe spaces in indexed vector form.
         """
-        return self.sfc.find_safe_spaces(agents)
+        sfc_agents = self.sfc.find_safe_spaces(agents)
+        return  self._convert_sfc_agents(sfc_agents)
 
     def advice_for_alex(self, agents):
         """This method will take an array with agent locations and offer advice
