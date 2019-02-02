@@ -38,6 +38,10 @@ class SafetyFinder:
     def __init__(self, city_rows=10, city_columns=10):
         self.city_rows = city_rows
         self.city_columns = city_columns
+        self.city_locations = self._generate_city_locations(self.city_columns, self.city_rows)
+
+    def _generate_city_locations(self, x_length, y_length):
+        return set(product(range(x_length), range(y_length)))
 
     def convert_coordinates(self, agents):
         """This method should take a list of alphanumeric coordinates (e.g. 'A6')
@@ -65,14 +69,10 @@ class SafetyFinder:
 
         Returns a list of safe spaces in indexed vector form.
         """
-        city_locations = self._generate_city_locations(self.city_columns, self.city_rows)
-        spaces = self._append_minimal_distances_to_locations(city_locations, agents)
+        spaces = self._append_minimal_distances_to_locations(self.city_locations, agents)
         safe_spaces = self._filter_to_safe_spaces(spaces)
 
         return self._convert_to_list_of_spaces(safe_spaces)
-
-    def _generate_city_locations(self, x_length, y_length):
-        return set(product(range(x_length), range(y_length)))
 
     def _append_minimal_distances_to_locations(self, locations, agents):
         return {(*location, self._distance_to_nearest_agent(location, agents))
