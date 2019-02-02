@@ -20,7 +20,11 @@ class SafetyFinder:
 
         Returns a list of coordinates in zero-indexed vector form.
         """
-        return self.sfc.convert_coordinates(agents)
+        sfc_agents = self.sfc.convert_coordinates(agents)
+        return self._convert_sfc_agents(sfc_agents)
+
+    def _convert_sfc_agents(self, sfc_agents):
+        return [list(agent) for agent in sfc_agents]
 
     def find_safe_spaces(self, agents):
         """This method will take an array with agent locations and find

@@ -43,7 +43,7 @@ class SafetyFinderCore:
     def _generate_city_locations(self, x_length, y_length):
         return set(product(range(x_length), range(y_length)))
 
-    def convert_coordinates(self, agents):
+    def convert_coordinates(self, alphanumeric_agents):
         """This method should take a list of alphanumeric coordinates (e.g. 'A6')
         and return an array of the coordinates converted to arrays with zero-indexing.
         For instance, 'A6' should become [0, 5]
@@ -53,10 +53,10 @@ class SafetyFinderCore:
 
         Returns a list of coordinates in zero-indexed vector form.
         """
-        return list(map(self._agent_to_coordinates, agents))
+        return map(self._construct_agent, alphanumeric_agents)
 
-    def _agent_to_coordinates(self, agent):
-        return [ord(agent[0])-ord("A"), int(agent[1:])-1]
+    def _construct_agent(self, agent):
+        return (ord(agent[0])-ord("A"), int(agent[1:])-1)
 
     def find_safe_spaces(self, agents):
         """This method will take an array with agent locations and find
@@ -123,11 +123,7 @@ class SafetyFinderCore:
         return self._convert_to_list_of_strings(safe_spaces)
 
     def _remove_agents_outside_city(self, agents):
-        return list(filter(lambda a:
-                           a[0] < self.city_columns and a[1] < self.city_rows,
-                           agents))
-        # nicer, but requires hashable locations and agents
-        # return list(filter(lambda agent: agent in self.city_locations, agents))
+        return list(filter(lambda agent: agent in self.city_locations, agents))
 
     def _convert_to_list_of_strings(self, safe_spaces):
         return [chr(x + ord("A")) + str(y + 1) for x, y in safe_spaces]
