@@ -50,31 +50,12 @@ class SafetyFinderCore:
         return set(product(range(x_length), range(y_length)))
 
     def convert_coordinates(self, alphanumeric_agents):
-        """This method should take a list of alphanumeric coordinates (e.g. 'A6')
-        and return an array of the coordinates converted to arrays with zero-indexing.
-        For instance, 'A6' should become [0, 5]
-
-        Arguments:
-        agents -- a list-like object containing alphanumeric coordinates.
-
-        Returns a list of coordinates in zero-indexed vector form.
-        """
         return map(self._construct_agent, set(alphanumeric_agents))
 
     def _construct_agent(self, agent):
         return (ord(agent[0])-ord("A"), int(agent[1:])-1)
 
     def find_safe_spaces(self, agents):
-        """This method will take an array with agent locations and find
-        the safest places in the city for Alex to hang out.
-
-        Arguments:
-        agents -- a list-like object containing the map coordinates of agents.
-            Each entry should be formatted in indexed vector form,
-            e.g. [0, 5], [3, 7], etc.
-
-        Returns a list of safe spaces in indexed vector form.
-        """
         spaces = self._append_minimal_distances_to_locations(self.city_locations, agents)
         safe_spaces = self._filter_to_safe_spaces(spaces)
 
