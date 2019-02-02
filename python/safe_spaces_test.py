@@ -123,14 +123,14 @@ class SafetyFinderTest_find_safe_spaces__Decompositions(unittest.TestCase):
 
     def test_place_agent(self):
         self.assertEqual({(0, 0, 0)},
-                         SafetyFinder()._calculate_minimal_distances({(0, 0)}, [[0, 0]]))
+                         SafetyFinder()._add_minimal_distances({(0, 0)}, [[0, 0]]))
 
         self.assertEqual({(0, 0, 0), (1, 1, 2), (0, 1, 1), (1, 0, 1)},
-                         SafetyFinder()._calculate_minimal_distances(
+                         SafetyFinder()._add_minimal_distances(
                                                                      {(0, 0), (1, 1), (0, 1), (1, 0)}, [[0, 0]]))
 
         self.assertEqual({(0, 0, 1), (1, 1, 1), (0, 1, 0), (1, 0, 2)},
-                         SafetyFinder()._calculate_minimal_distances(
+                         SafetyFinder()._add_minimal_distances(
                                                                      {(0, 0), (1, 1), (0, 1), (1, 0)}, [[0, 1]]))
 
     def test_reduce_to_safe_spaces(self):
